@@ -1,7 +1,7 @@
 {
   "name": "react-native-concepts",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "App.js",
   "scripts": {
     "start": "expo start --dev-client",
     "android": "expo run:android",
@@ -15,6 +15,7 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
+    "react-native-elements": "^3.4.2",
     "react-native-web": "0.17.1"
   },
   "devDependencies": {
