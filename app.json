@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "react-native-concepts",
+    "slug": "react-native-concepts",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "react-native-concepts"
+}
