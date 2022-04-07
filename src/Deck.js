@@ -11,6 +11,30 @@ const SWIPE_THRESHOLD = 0.25 * SCREEN_WIDTH;
 const Deck = ({ data, renderCard, renderNoMoreCards, onSwipeLeft = () => {}, onSwipeRight = () => {} }) => {
     const [ index, setIndex ] = useState(0);
     const [ position ] = useState(new Animated.ValueXY());
+
+    const onSwipeComplete = (direction) => {
+        const item = data[index];
+
+        direction === "right" ? onSwipeRight(item) : onSwipeLeft(item);
+        position.setValue({ x: 0, y: 0 });
+        setIndex(index + 1);
+    }
+
+    const forceSwipe = (direction) => {
+        const x = direction === "right" ? SCREEN_WIDTH : -SCREEN_WIDTH;
+        Animated.timing(position, {
+            toValue: { x, y: 0 },
+            duration: 250,
+            useNativeDriver: true
+        }).start(() => onSwipeComplete(direction));
+    }
+
+    const resetPosition = () => {
+        Animated.spring(position, {
+            toValue: { x: 0, y: 0 }
+        }).start();
+    }
+
     // User Input, Animation Output panResponder state based on position
     const [ panResponder ] = useState(PanResponder.create({
         onStartShouldSetPanResponder: () => true,
@@ -29,29 +53,6 @@ const Deck = ({ data, renderCard, renderNoMoreCards, onSwipeLeft = () => {}, onS
             }
         }
     }));
-
-    function forceSwipe(direction) {
-        const x = direction === "right" ? SCREEN_WIDTH : -SCREEN_WIDTH;
-        Animated.timing(position, {
-            toValue: { x, y: 0 },
-            duration: 250,
-            useNativeDriver: true
-        }).start(() => onSwipeComplete(direction));
-    }
-
-    function onSwipeComplete(direction) {
-        const item = data[index];
-
-        direction === "right" ? onSwipeRight(item) : onSwipeLeft(item);
-        position.setValue({ x: 0, y: 0 });
-        setIndex(index + 1);
-    }
-
-    function resetPosition() {
-        Animated.spring(position, {
-            toValue: { x: 0, y: 0 }
-        }).start();
-    }
 
     const getCardStyle = () => {
         const rotate = position.x.interpolate({
